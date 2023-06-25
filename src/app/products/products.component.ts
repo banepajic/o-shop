@@ -1,24 +1,35 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ProductService } from '../product.service';
 import { ActivatedRoute } from '@angular/router';
 import { Product } from '../models/product';
 import { map, switchMap } from 'rxjs/operators';
+import { ShoppingCartService } from '../shopping-cart.service';
+import { Observable, Subscription } from 'rxjs';
+import { ShoppingCart } from '../models/shopping-cart';
 
 @Component({
   selector: 'app-products',
   templateUrl: './products.component.html',
   styleUrls: ['./products.component.css'],
 })
-export class ProductsComponent {
+export class ProductsComponent implements OnInit {
   products: Product[] = [];
-  filteredProducts: Product[];
-
+  filteredProducts: Product[] = [];
   category: string;
+  cart$: Observable<ShoppingCart>;
 
   constructor(
     private route: ActivatedRoute,
-    private productService: ProductService
-  ) {
+    private productService: ProductService,
+    private shoppingCartService: ShoppingCartService
+  ) {}
+
+  async ngOnInit() {
+    this.cart$ = await this.shoppingCartService.getCart();
+    this.populateProducts();
+  }
+
+  private populateProducts() {
     this.productService
       .getAll()
       .pipe(
@@ -35,10 +46,13 @@ export class ProductsComponent {
       )
       .subscribe((params) => {
         this.category = params.get('category');
-
-        this.filteredProducts = this.category
-          ? this.products.filter((p) => p.category === this.category)
-          : this.products;
+        this.applyFilter();
       });
+  }
+
+  private applyFilter() {
+    this.filteredProducts = this.category
+      ? this.products.filter((p) => p.category === this.category)
+      : this.products;
   }
 }
