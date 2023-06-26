@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import firebase from 'firebase';
 import { Observable } from 'rxjs/internal/Observable';
 import { ActivatedRoute } from '@angular/router';
-import { AppUser } from './models/app-user';
+import { AppUser } from '../models/app-user';
 import { UserService } from './user.service';
 import { switchMap } from 'rxjs/operators';
 import { of } from 'rxjs';

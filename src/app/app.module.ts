@@ -18,19 +18,19 @@ import { AdminOrdersComponent } from './admin/admin-orders/admin-orders.componen
 import { RouterModule } from '@angular/router';
 import { LoginComponent } from './login/login.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { AuthService } from './auth.service';
-import { AuthGuard } from './auth-guard.service';
-import { UserService } from './user.service';
+import { AuthService } from './shared/services/auth.service';
+import { AuthGuardService } from './shared/services/auth-guard.service';
+import { UserService } from './shared/services/user.service';
 import { AdminAuthGuard } from './admin-auth-guard.service';
 import { ProductFormComponent } from './admin/product-form/product-form.component';
-import { CategoryService } from './category.service';
+import { CategoryService } from './shared/services/category.service';
 import { FormsModule } from '@angular/forms';
-import { ProductService } from './product.service';
+import { ProductService } from './shared/services/product.service';
 import { ProductFilterComponent } from './products/product-filter/product-filter.component';
-import { ProductCardComponent } from './product-card/product-card.component';
-import { ShoppingCartService } from './shopping-cart.service';
-import { ProductQuantityComponent } from './product-quantity/product-quantity.component';
-import { OrderService } from './order.service';
+import { ProductCardComponent } from './shared/components/product-card/product-card.component';
+import { ShoppingCartService } from './shared/services/shopping-cart.service';
+import { ProductQuantityComponent } from './shared/components/product-quantity/product-quantity.component';
+import { OrderService } from './shared/services/order.service';
 import { ShoppingCartSummaryComponent } from './shopping-cart-summary/shopping-cart-summary.component';
 import { ShippingFormComponent } from './shipping-form/shipping-form.component';
 
@@ -70,43 +70,43 @@ import { ShippingFormComponent } from './shipping-form/shipping-form.component';
       {
         path: 'check-out',
         component: CheckOutComponent,
-        canActivate: [AuthGuard],
+        canActivate: [AuthGuardService],
       },
       {
         path: 'order-success/:id',
         component: OrderSuccessComponent,
-        canActivate: [AuthGuard],
+        canActivate: [AuthGuardService],
       },
       {
         path: 'my/orders',
         component: MyOrdersComponent,
-        canActivate: [AuthGuard],
+        canActivate: [AuthGuardService],
       },
       {
         path: 'admin/products/new',
         component: ProductFormComponent,
-        canActivate: [AuthGuard, AdminAuthGuard],
+        canActivate: [AuthGuardService, AdminAuthGuard],
       },
       {
         path: 'admin/products/:id',
         component: ProductFormComponent,
-        canActivate: [AuthGuard, AdminAuthGuard],
+        canActivate: [AuthGuardService, AdminAuthGuard],
       },
       {
         path: 'admin/products',
         component: AdminProductsComponent,
-        canActivate: [AuthGuard, AdminAuthGuard],
+        canActivate: [AuthGuardService, AdminAuthGuard],
       },
       {
         path: 'admin/orders',
         component: AdminOrdersComponent,
-        canActivate: [AuthGuard, AdminAuthGuard],
+        canActivate: [AuthGuardService, AdminAuthGuard],
       },
     ]),
   ],
   providers: [
     AuthService,
-    AuthGuard,
+    AuthGuardService,
     AdminAuthGuard,
     UserService,
     CategoryService,
