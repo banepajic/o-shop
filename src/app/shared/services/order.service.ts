@@ -1,6 +1,8 @@
 import { ShoppingCartService } from './shopping-cart.service';
 import { Injectable } from '@angular/core';
 import { AngularFireDatabase } from '@angular/fire/database';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -15,5 +17,15 @@ export class OrderService {
     let result = await this.db.list('/orders').push(order);
     this.shoppingCartService.clearCart();
     return result;
+  }
+
+  getOrders(): Observable<any[]> {
+    return this.db.list('/orders').valueChanges();
+  }
+
+  getOrdersByUser(userId: string): Observable<any[]> {
+    return this.db
+      .list('/orders', (ref) => ref.orderByChild('userId').equalTo(userId))
+      .valueChanges();
   }
 }
